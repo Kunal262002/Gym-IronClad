@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink text-chalk font-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-wide;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.volt');
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center bg-volt text-ink font-body font-bold uppercase tracking-wide px-6 py-3 text-sm hover:bg-chalk transition-colors duration-200;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center border border-chalk/30 text-chalk font-body font-bold uppercase tracking-wide px-6 py-3 text-sm hover:border-volt hover:text-volt transition-colors duration-200;
+  }
+  .section-eyebrow {
+    @apply text-volt font-body font-bold uppercase tracking-[0.2em] text-xs mb-3;
+  }
+  .card {
+    @apply bg-steel border border-white/5 p-6;
+  }
+  .input-field {
+    @apply w-full bg-steel border border-white/10 px-4 py-3 text-chalk placeholder-chalk/40 focus:border-volt outline-none transition-colors duration-200;
+  }
+}
