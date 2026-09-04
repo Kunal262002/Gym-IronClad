@@ -34,6 +34,13 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({
+    success: true,
+    message: 'IRONCLAD Gym API is running'
+  });
+});
+
 app.use('/api', async (req, res, next) => {
   try {
     await connectDB();
@@ -41,13 +48,6 @@ app.use('/api', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-
-app.get('/api/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'IRONCLAD Gym API is running'
-  });
 });
 
 app.use('/api/auth', authRoutes);

@@ -1,8 +1,13 @@
 import axios from 'axios';
 
+const configuredApiUrl = import.meta.env.VITE_API_URL || 'https://gym-ironclad.onrender.com';
+const apiBaseUrl = configuredApiUrl.replace(/\/$/, '').endsWith('/api')
+  ? configuredApiUrl.replace(/\/$/, '')
+  : `${configuredApiUrl.replace(/\/$/, '')}/api`;
+
 // Central axios instance so the base URL and auth header logic live in one place.
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://gym-ironclad.onrender.com',
+  baseURL: apiBaseUrl,
 });
 
 // Attach the stored JWT (if any) to every outgoing request.
