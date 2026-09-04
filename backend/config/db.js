@@ -20,7 +20,17 @@ import mongoose from 'mongoose';
 
 dns.setServers(['8.8.8.8', '1.1.1.1']);
 
+let connectionPromise;
+
 const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
+  if (connectionPromise) {
+    return connectionPromise;
+  }
+
   try {
     const mongoUri = process.env.MONGO_URI;
 
@@ -34,10 +44,14 @@ const connectDB = async () => {
       );
     }
 
-    const conn = await mongoose.connect(mongoUri);
+    connectionPromise = mongoose.connect(mongoUri).then((conn) => {
+      console.log(`MongoDB connected: ${conn.connection.host}`);
+      return conn.connection;
+    });
 
-    console.log(`MongoDB connected: ${conn.connection.host}`);
+    return await connectionPromise;
   } catch (error) {
+    connectionPromise = undefined;
     console.error(`MongoDB connection error: ${error.message}`);
     throw error;
   }

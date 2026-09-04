@@ -27,11 +27,20 @@ app.use('/uploads', express.static(path.join(currentDirectory, 'uploads')));
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: "Gym IronClad Backend is running 🚀"
+    message: 'Gym IronClad Backend is running'
   });
+});
+
+app.use('/api', async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get('/api/health', (req, res) => {
@@ -67,4 +76,8 @@ const startServer = async () => {
   }
 };
 
-startServer();
+export default app;
+
+if (process.env.VERCEL !== '1') {
+  startServer();
+}
